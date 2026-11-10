@@ -16,6 +16,9 @@
         }
     </style>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/2.3.8/js/dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.3.8/css/dataTables.dataTables.min.css">
 
 </head>
 
@@ -507,6 +510,9 @@
 
 
     <script>
+        /*
+
+        // js vanilla
     let clickElements = [];
     let elements = document.getElementsByTagName("tr");
     let selectionText = document.getElementById("selection");
@@ -517,25 +523,98 @@
             let target = this;
             let targetIndex = clickElements.indexOf(target);
             if(targetIndex === -1){
-                target.style.backgroundColor="lightblue";
-                target.style.fontWeight = "900";
+                changeStyle(target, "lightblue", "900")
                 clickElements.push(target);
-                if(clickElements.length > 1)
-                    selectionText.innerText = clickElements.length+" éléments sélectionnés";
-                else
-                    selectionText.innerText = clickElements.length+" élément sélectionné";
+                refreshSelectionText(clickElements.length)
             }
             else{
-                target.style.backgroundColor="white";
-                target.style.fontWeight = "500";
+                changeStyle(target, "white", "500")
                 clickElements.splice(targetIndex,1);
-                if(clickElements.length > 1)
-                    selectionText.innerText = clickElements.length+" éléments sélectionnés";
-                else
-                    selectionText.innerText = clickElements.length+" élément sélectionné";
+                refreshSelectionText(clickElements.length)
             }
         });
+
+        element.addEventListener("mouseover", function(){
+            this.style.border = "1px solid #888";
+        });
+        element.addEventListener("mouseout", function (){
+            this.style.border = "";
+        });
     }
+
+    function refreshSelectionText(count){
+        let selectionText = document.getElementById("selection")
+        if(count > 1)
+            selectionText.innerText = count+" éléments sélectionnés";
+        else
+            selectionText.innerText = count+" élément sélectionné";
+    }
+
+    function changeStyle(element, backgroundColor, fontWeight, border){
+        if(backgroundColor !== null){
+            element.style.backgroundColor = backgroundColor;
+        }
+        if(fontWeight !== null){
+            element.style.fontWeight = fontWeight;
+        }
+        if(border !== null){
+            element.style.border = border;
+        }
+    }
+        */
+
+        /*
+        // JQuery
+    let clickElements = [];
+        
+    function refreshSelectionText(count){
+        if(count > 1)
+            $("#selection").text(count+ " éléments sélectionnés");
+        else 
+            $("#selection").text(count+ " élément sélectionné");        
+    }
+        
+    function changeStyle(element, backgroundColor, fontWeight, border){
+        if(backgroundColor!== null){
+            $(element).css("background-color", backgroundColor);
+        }
+        if(fontWeight !== null){        
+            $(element).css("font-weight", fontWeight);
+        }
+        if(border !== null){
+            $(element).css("border", border);
+        }
+    }
+        
+    function onRowClick(){
+        let target = this;
+        let targetIndex = clickElements.indexOf(target);
+        if(targetIndex === -1){
+            changeStyle(target, "lightblue", "900", null);
+            clickElements.push(target);
+            refreshSelectionText(clickElements.length);
+        }
+        else{
+            changeStyle(target, "white", "500", null);
+            clickElements.splice(targetIndex,1);
+            refreshSelectionText(clickElements.length);
+        }
+    }
+        
+    function onRowMouseOver(){
+        changeStyle(this, null, null, "1px solid #888");
+    }
+                
+    function onRowMouseOut(){
+        changeStyle(this, null, null, "");
+    }       
+        
+    $("tr").on("click", onRowClick).on("mouseover", onRowMouseOver).on("mouseout", onRowMouseOut);
+// Lorsqu’on clique sur un tr, la fonction onRowClick s’active. Lorsqu’on survole un tr, la fonction onRowMouseOver s’active. Lorsqu’on sort d’un tr, la fonction onRowMouseOut s’active.
+    */
+
+    //JQuery avec librairie
+    $('table').DataTable();
 </script>
 </body>
 
